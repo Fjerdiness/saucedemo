@@ -2,7 +2,7 @@ import pytest
 from helpers.base_settings import *
 from helpers import base_actions
 from helpers.page_selectors import * # And I done it again
-from tests import test_login, test_main_page
+from tests import test_header, test_login, test_main_page
 
 
 ITEMS_AMOUNT = 1
@@ -27,8 +27,6 @@ def checkout_step_1_assert(driver, is_valid: bool) -> None:
     else: 
         base_actions.assert_is_element_displayed(driver, CHECKOUT_ERROR_CONTATINER)
 
-
-
 def fill_checkout_step_1(driver, first_name: str="TestFirstName", last_name: str="TestLastName", zip: str="111"):
     driver.find_element(*FIRST_NAME_INPUT).send_keys(first_name)
     driver.find_element(*LAST_NAME_INPUT).send_keys(last_name)
@@ -49,14 +47,12 @@ def cancel_checkout_assert(driver):
 # TESTS
 
 def test_go_to_cart(driver):
-
     test_login.login(driver)  
     test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
 
     assert_cart_page_opened(driver)
 
 def test_continue_shopping_click(driver):    
-
     test_login.login(driver)  
     test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
 
@@ -64,7 +60,6 @@ def test_continue_shopping_click(driver):
     continue_shopping_click_assert(driver)
 
 def test_valid_checkout(driver):
-
     test_login.login(driver)  
     test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
 
@@ -75,7 +70,6 @@ def test_valid_checkout(driver):
     finish_checkout_assert(driver)
 
 def test_empty_info_checkout(driver):
-
     test_login.login(driver)  
     test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
 
@@ -85,8 +79,7 @@ def test_empty_info_checkout(driver):
     checkout_step_1_assert(driver, False)
 
 @pytest.mark.parametrize("first_name, last_name, zip, expected_error_msg", INVALID_CHECKOUT_INFO_STR)
-def test_non_valid_login_checkout(driver, first_name, last_name, zip, expected_error_msg):
-    
+def test_non_valid_checkout(driver, first_name, last_name, zip, expected_error_msg):
     test_login.login(driver)  
     test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
 
@@ -97,7 +90,6 @@ def test_non_valid_login_checkout(driver, first_name, last_name, zip, expected_e
     base_actions.assert_element_text(driver, CHECKOUT_ERROR_CONTATINER, expected_error_msg)
 
 def test_checkout_button_visibility(driver):
-
     test_login.login(driver)
     test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
     
@@ -107,10 +99,19 @@ def test_checkout_button_visibility(driver):
     base_actions.assert_is_element_displayed(driver, CONTINUE_CHECKOUT_BTN)
 
 def test_cancel_checkout(driver):
-
     test_login.login(driver)
     test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
     
     assert_cart_page_opened(driver)
     go_to_checkout_1_step_assert(driver)
     cancel_checkout_assert(driver)
+
+def test_cart_persistence(driver):
+    test_login.login(driver)
+    test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
+    inital_cart_value = base_actions.get_element_text(driver, CART_BADGE)
+    test_header.click_burger_menu_option(driver, *BURGER_MENU_SUBBTNS["Logout"])
+    base_actions.assert_URL(driver, BASE_URL)
+    test_login.login(driver)
+    cart_value = base_actions.get_element_text(driver, CART_BADGE)
+    assert inital_cart_value == cart_value, f"Test failed, expected {inital_cart_value}, but got {cart_value}"

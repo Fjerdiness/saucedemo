@@ -303,6 +303,19 @@ py -m pytest -v -s tests/%MODULE_NAME%.py::%TEST_CASE_NAME%
 **When** the user clicks the LinkedIn link  
 **Then** the user should be redirected to the LinkedIn page  
 
+---
+
+### Scenario: Cart Persistence
+**Given** the user is logged in  
+**And** the user adds items to the cart  
+**When** the user retrieves the initial cart value  
+**And** the user logs out  
+**And** the user logs back in  
+**Then** the cart value should remain the same as before logging out  
+
+---
+
+
 ## Non-Functional Test Cases
 
 ### Scenario: Page Load Performance
