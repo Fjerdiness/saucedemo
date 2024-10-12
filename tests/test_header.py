@@ -1,7 +1,7 @@
 import time
 import pytest
 from helpers.base_settings import *
-from tests import test_login, test_cart
+from tests import base_actions, test_login, test_cart
 from helpers.page_selectors import * # And I done it again
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -19,7 +19,7 @@ def assert_burger_menu_buttons_visibility(driver):
 def click_burger_menu_option(driver, *button_selector):
     driver.find_element(*BURGER_MENU_BTN).click()  
     WebDriverWait(driver, 10).until(
-        EC.visibility_of_element_located((BURGER_MENU_SUBBTNS["All Items"]))
+        EC.visibility_of_element_located((BURGER_MENU_SUBBTNS["All Items"])) # Waiting till burger menu animation
     )
     
     driver.find_element(*button_selector).click()
@@ -30,8 +30,24 @@ def test_burger_menu_buttons_visibility(driver):
     test_login.login(driver) 
     assert_burger_menu_buttons_visibility(driver)
 
-def test_burger_menu_items_click(driver):
+def test_burger_menu_all_items_click(driver):
     test_login.login(driver)
     test_cart.go_to_cart_assert(driver)
     click_burger_menu_option(driver, *BURGER_MENU_SUBBTNS["All Items"])
+    base_actions.assert_URL(driver, INVENTORY_URL)
+
+def test_burger_menu_about_click(driver):
+    test_login.login(driver)
+    click_burger_menu_option(driver, *BURGER_MENU_SUBBTNS["About"])
+    base_actions.assert_URL(driver, SAUCELABS_URL)
+
+def test_burger_menu_logout_click(driver):
+    test_login.login(driver)
+    click_burger_menu_option(driver, *BURGER_MENU_SUBBTNS["Logout"])
+    base_actions.assert_URL(driver, BASE_URL)
+
+def test_burger_menu_reset_app_click(driver):
+    test_login.login(driver)
+    click_burger_menu_option(driver, *BURGER_MENU_SUBBTNS["Reset App State"])
+    base_actions.assert_is_element_invisible(driver, CART_BADGE)
     

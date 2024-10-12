@@ -18,9 +18,15 @@
 6. Install the required packages:
 - `pip install -r requirements.txt`
 7. Run the tests to ensure everything is set up correctly:
-- `pytest tests/`
+- Windows:
+- - `py -m pytest tests/`
+- macOS:
+- - `python3 -m pytest tests/`
+- Linux:
+- - `python3 -m pytest tests/`
 
-# Cucumber style documentation for tests
+
+# Cucumber style documentation
 
 ## Scenario: Valid Login
 **Given** the user enters valid credentials  
@@ -35,6 +41,30 @@
 **When** the user submits the login form  
 **Then** an error message should be displayed  
 **And** the error message container should exist  
+
+---
+
+## Scenario: No Username Login
+**Given** the user navigates to the login page  
+**When** the user attempts to log in with no username  
+**Then** the error message container should be visible  
+**And** the error message should indicate "Epic sadface: Username is required"  
+
+---
+
+## Scenario: No Password Login
+**Given** the user navigates to the login page  
+**When** the user attempts to log in with no password  
+**Then** the error message container should be visible  
+**And** the error message should indicate "Epic sadface: Password is required"  
+
+---
+
+## Scenario: Non-Existent Login
+**Given** the user navigates to the login page  
+**When** the user attempts to log in with non-existent credentials  
+**Then** the error message container should be visible  
+**And** the error message should indicate "Epic sadface: Sorry, this user does not exist."  
 
 ---
 
@@ -146,3 +176,4 @@
 **Then** the user should be redirected to the Facebook page  
 **When** the user clicks the LinkedIn link  
 **Then** the user should be redirected to the LinkedIn page  
+

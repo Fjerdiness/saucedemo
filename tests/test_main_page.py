@@ -53,11 +53,11 @@ def check_dropdown_assert_values(driver):
 
 def test_cart_button_visible(driver):
     test_login.login(driver)
-    base_actions.is_element_displayed(driver, CART_BTN)
+    base_actions.assert_is_element_displayed(driver, CART_BTN)
 
 def test_burger_menu_button_visible(driver):
     test_login.login(driver)
-    base_actions.is_element_displayed(driver, BURGER_MENU_BTN)
+    base_actions.assert_is_element_displayed(driver, BURGER_MENU_BTN)
 
 @pytest.mark.parametrize("items_amount", range(1, 7))
 def test_add_all_items_to_cart(driver, items_amount) -> None:

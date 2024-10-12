@@ -8,6 +8,7 @@ CART_URL = BASE_URL + "cart.html"
 CHECKOUT_1_URL = BASE_URL + "checkout-step-one.html"
 CHECKOUT_2_URL = BASE_URL + "checkout-step-two.html"
 CHECKOUT_COMPLETE_URL = BASE_URL + "checkout-complete.html"
+SAUCELABS_URL = "https://saucelabs.com/"
 
 XITTER_URL = "https://x.com/saucelabs"
 FB_URL = "https://www.facebook.com/saucelabs"
@@ -24,6 +25,20 @@ VALID_CREDS = {
     "error_user": "secret_sauce",      # Expect checkout error
     "visual_user": "secret_sauce",      # Expect visual errors
 }
+
+LOGIN_ERRORS_STR = [
+    "Epic sadface: Username is required",
+    "Epic sadface: Password is required",
+    "Epic sadface: Sorry, this user has been locked out.",
+    "Epic sadface: Username and password do not match any user in this service",
+]
+
+
+CHECKOUT_ERRORS = [
+    "Error: First Name is required",
+    "Error: Last Name is required",
+    "Error: Postal Code is required",
+]
 
 def get_credentials(user_type: str)  -> Tuple[str, str]:
     password = NON_VALID_CREDS.get(user_type)

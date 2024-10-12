@@ -22,9 +22,12 @@ def checkout_step_1_assert(driver, is_valid: bool):
     if is_valid:
         base_actions.assert_URL(driver, CHECKOUT_2_URL)
     else: 
-        assert driver.find_element(*CHECKOUT_ERROR_CONTATINER).is_displayed(), "Checkout error should be visible"
+        base_actions.assert_is_element_displayed(driver, CHECKOUT_ERROR_CONTATINER)
 
-def fill_checkout_step_1(driver, first_name, last_name, zip):
+# def assert_checkout_error_message(driver, expected_message: str):
+
+
+def fill_checkout_step_1(driver, first_name: str, last_name: str, zip: str):
     driver.find_element(*FIRST_NAME_INPUT).send_keys(first_name)
     driver.find_element(*LAST_NAME_INPUT).send_keys(last_name)
     driver.find_element(*ZIP_INPUT).send_keys(zip)
@@ -34,15 +37,11 @@ def fill_checkout_step_1(driver, first_name, last_name, zip):
 def finish_checkout_assert(driver):
     driver.find_element(*FINISH_BTN).click()
     base_actions.assert_URL(driver, CHECKOUT_COMPLETE_URL)
-    assert driver.find_element(*BACK_HOME_BTN).is_displayed(), "Back Home button isnt displayed"
+    base_actions.assert_is_element_displayed(driver, BACK_HOME_BTN)
 
 def cancel_checkout_assert(driver):
     driver.find_element(*CANCEL_BTN).click()
-    current_url = driver.current_url
-    assert current_url == CART_URL, f"Expected URL '{CART_URL}', but got '{current_url}'."
-
-def assert_checkout_btn_is_not_visible():
-    assert CHECKOUT_BTN.is_displayed(), "Checkout button is not visible."
+    base_actions.assert_URL(driver, CART_URL)
 
 
 # TESTS
@@ -76,7 +75,18 @@ def test_valid_checkout(driver):
     checkout_step_1_assert(driver, True)
     finish_checkout_assert(driver)
 
-def test_non_valid_checkout(driver):
+def test_empty_info_checkout(driver):
+    items_amount = 1
+
+    test_login.login(driver)  
+    test_main_page.add_items_to_cart(driver, items_amount)
+
+    go_to_cart_assert(driver)
+    go_to_checkout_1_step_assert(driver)
+    fill_checkout_step_1(driver, "", "", "")
+    checkout_step_1_assert(driver, False)
+
+def test_empty_info_checkout(driver):
     items_amount = 1
 
     test_login.login(driver)  
@@ -96,7 +106,7 @@ def test_checkout_button_visibility(driver):
     go_to_cart_assert(driver)
     go_to_checkout_1_step_assert(driver)
     
-    base_actions.is_element_displayed(driver, CONTINUE_CHECKOUT_BTN)
+    base_actions.assert_is_element_displayed(driver, CONTINUE_CHECKOUT_BTN)
 
 def test_cancel_checkout(driver):
     items_amount = 1
