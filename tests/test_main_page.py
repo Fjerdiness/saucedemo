@@ -102,8 +102,8 @@ def get_items_list(driver) -> list[str]:
             }
             products.append(product)
 
-    for product in products:
-        print(product) # debug lines
+    # for product in products:
+    #     print(product) # debug lines
 
     return products
 

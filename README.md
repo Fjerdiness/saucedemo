@@ -1,6 +1,6 @@
 # How To:
 
-0. Clone the repository and install Python and pip.
+0. Clone the repository, install Python/pip/chromedriver/firefoxdriver.
 1. Navigate into the project directory:
    - `cd saucedemo`
 2. Create a virtual environment:
@@ -23,6 +23,9 @@
      - `python3 -m pytest tests/`
    - Linux:  
      - `python3 -m pytest tests/`
+
+7. Use -v to run verbose and to see debug prints
+   - `py -m pytest -v -s tests/`
 
 ---
 
@@ -232,3 +235,34 @@
 **Then** the user should be redirected to the Facebook page  
 **When** the user clicks the LinkedIn link  
 **Then** the user should be redirected to the LinkedIn page  
+
+## Non-Functional Test Cases
+
+### Scenario: Page Load Performance
+**Given** the user navigates to the inventory page  
+**Then** the page should load within 2 seconds  
+
+---
+
+### Scenario: Responsiveness
+**Given** the user resizes the browser window  
+**Then** the layout should adjust correctly for all screen sizes  
+
+---
+
+### Scenario: Security
+**Given** the user is logged in  
+**When** the user attempts to access the admin page  
+**Then** the user should be redirected to the home page with an "Access Denied" message  
+
+---
+
+### Scenario: Compatibility
+**Given** the user opens the inventory page in different browsers  
+**Then** the page should render correctly in Chrome, Firefox, and Safari  
+
+---
+
+### Scenario: Non valid URL
+**Given** the user opens the wrong link
+**Then** should be opened 404 page 
