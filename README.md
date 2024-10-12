@@ -20,7 +20,7 @@
 7. Run the tests to ensure everything is set up correctly:
 - `pytest tests/`
 
-# [SauceDemo.com](https://www.saucedemo.com/)
+# Cucumber style documentation for tests
 
 ## Scenario: Valid Login
 **Given** the user enters valid credentials  
