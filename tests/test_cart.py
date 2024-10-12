@@ -1,13 +1,15 @@
-import time
 import pytest
 from helpers.base_settings import *
 from helpers import base_actions
 from helpers.page_selectors import * # And I done it again
 from tests import test_login, test_main_page
 
+
+ITEMS_AMOUNT = 1
+
 # HELPERS
 
-def go_to_cart_assert(driver) -> None:
+def assert_cart_page_opened(driver) -> None:
     driver.find_element(*CART_BTN).click()
     base_actions.assert_URL(driver, CART_URL)
     
@@ -47,75 +49,68 @@ def cancel_checkout_assert(driver):
 # TESTS
 
 def test_go_to_cart(driver):
-    items_amount = 1
 
     test_login.login(driver)  
-    test_main_page.add_items_to_cart(driver, items_amount)
+    test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
 
-    go_to_cart_assert(driver)
+    assert_cart_page_opened(driver)
 
-def test_continue_shopping_click(driver):
-    items_amount = 1
+def test_continue_shopping_click(driver):    
 
     test_login.login(driver)  
-    test_main_page.add_items_to_cart(driver, items_amount)
+    test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
 
-    go_to_cart_assert(driver)
+    assert_cart_page_opened(driver)
     continue_shopping_click_assert(driver)
 
 def test_valid_checkout(driver):
-    items_amount = 1
 
     test_login.login(driver)  
-    test_main_page.add_items_to_cart(driver, items_amount)
+    test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
 
-    go_to_cart_assert(driver)
+    assert_cart_page_opened(driver)
     go_to_checkout_1_step_assert(driver)
     fill_checkout_step_1(driver)
     checkout_step_1_assert(driver, True)
     finish_checkout_assert(driver)
 
 def test_empty_info_checkout(driver):
-    items_amount = 1
 
     test_login.login(driver)  
-    test_main_page.add_items_to_cart(driver, items_amount)
+    test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
 
-    go_to_cart_assert(driver)
+    assert_cart_page_opened(driver)
     go_to_checkout_1_step_assert(driver)
     fill_checkout_step_1(driver, "", "", "")
     checkout_step_1_assert(driver, False)
 
 @pytest.mark.parametrize("first_name, last_name, zip, expected_error_msg", INVALID_CHECKOUT_INFO_STR)
 def test_non_valid_login_checkout(driver, first_name, last_name, zip, expected_error_msg):
-    items_amount = 1
-
+    
     test_login.login(driver)  
-    test_main_page.add_items_to_cart(driver, items_amount)
+    test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
 
-    go_to_cart_assert(driver)
+    assert_cart_page_opened(driver)
     go_to_checkout_1_step_assert(driver)
     fill_checkout_step_1(driver, first_name, last_name, zip)
     checkout_step_1_assert(driver, False)
     base_actions.assert_element_text(driver, CHECKOUT_ERROR_CONTATINER, expected_error_msg)
 
 def test_checkout_button_visibility(driver):
-    items_amount = 1
 
     test_login.login(driver)
-    test_main_page.add_items_to_cart(driver, items_amount)
+    test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
     
-    go_to_cart_assert(driver)
+    assert_cart_page_opened(driver)
     go_to_checkout_1_step_assert(driver)
     
     base_actions.assert_is_element_displayed(driver, CONTINUE_CHECKOUT_BTN)
 
 def test_cancel_checkout(driver):
-    items_amount = 1
 
     test_login.login(driver)
-    test_main_page.add_items_to_cart(driver, items_amount)
+    test_main_page.add_items_to_cart(driver, ITEMS_AMOUNT)
     
-    go_to_cart_assert(driver)
+    assert_cart_page_opened(driver)
     go_to_checkout_1_step_assert(driver)
     cancel_checkout_assert(driver)

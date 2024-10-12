@@ -1,15 +1,10 @@
 
-import time
 import pytest
 from helpers import base_actions
 from helpers.base_settings import *
 from tests import test_login
 from helpers.page_selectors import * # And I done it again
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import Select
 
 # HELPERS
 
@@ -87,20 +82,19 @@ def get_items_list(driver) -> list[str]:
 
     for card in all_product_cards:
         card_text = card.text.splitlines()
-        
-        if len(card_text) >= 4:
-            title = card_text[0]
-            description = card_text[1]
-            price = card_text[2]
-            button = card_text[3]
+        # strictly speaking there should be something like if len >= 4 or something, if some card wont have necessary info and they should be handled 
+        title = card_text[0]
+        description = card_text[1]
+        price = card_text[2]
+        button = card_text[3]
 
-            product = {
-                "title": title,
-                "description": description,
-                "price": price,
-                "button": button
-            }
-            products.append(product)
+        product = {
+            "title": title,
+            "description": description,
+            "price": price,
+            "button": button
+        }
+        products.append(product)
 
     # for product in products:
     #     print(product) # debug lines

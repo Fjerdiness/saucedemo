@@ -1,9 +1,6 @@
-import time
 import pytest
-from selenium import webdriver
 from helpers.base_settings import * # Yeah, I know I shouldnt do this, but i did
 from helpers.page_selectors import *
-from selenium.common.exceptions import NoSuchElementException
 from helpers import base_actions
     
 # HELPERS    

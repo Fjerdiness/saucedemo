@@ -1,17 +1,16 @@
-import time
-import pytest
 from helpers import base_actions
 from helpers.base_settings import *
 from tests import test_login, test_cart
 from helpers.page_selectors import * # And I done it again
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+DEFAULT_TIMEOUT = 10
+
 # HELPERS
-def assert_burger_menu_buttons_visibility(driver) -> None:
+def check_burger_menu_buttons_visibility(driver) -> None:
     driver.find_element(*BURGER_MENU_BTN).click()  
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, DEFAULT_TIMEOUT).until(
         EC.visibility_of_element_located((BURGER_MENU_SUBBTNS["All Items"]))
     )
     for button_name, button_selector in BURGER_MENU_SUBBTNS.items():
@@ -19,7 +18,7 @@ def assert_burger_menu_buttons_visibility(driver) -> None:
 
 def click_burger_menu_option(driver, *button_selector) -> None:
     driver.find_element(*BURGER_MENU_BTN).click()  
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, DEFAULT_TIMEOUT).until(
         EC.visibility_of_element_located((BURGER_MENU_SUBBTNS["All Items"])) # Waiting till burger menu animation
     )
     
@@ -29,11 +28,11 @@ def click_burger_menu_option(driver, *button_selector) -> None:
 
 def test_burger_menu_buttons_visibility(driver):
     test_login.login(driver) 
-    assert_burger_menu_buttons_visibility(driver)
+    check_burger_menu_buttons_visibility(driver)
 
 def test_burger_menu_all_items_click(driver):
     test_login.login(driver)
-    test_cart.go_to_cart_assert(driver)
+    test_cart.assert_cart_page_opened(driver)
     click_burger_menu_option(driver, *BURGER_MENU_SUBBTNS["All Items"])
     base_actions.assert_URL(driver, INVENTORY_URL)
 

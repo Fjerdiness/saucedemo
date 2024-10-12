@@ -1,35 +1,97 @@
-# How To:
+# Project Title
 
-0. Clone the repository, install Python/pip/chromedriver/firefoxdriver.
-1. Navigate into the project directory:
-   - `cd saucedemo`
-2. Create a virtual environment:
-   - `python -m venv venv`
-3. If you're using PowerShell on Windows, you may need to change the execution policy. Run:  
-   - `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`
-4. Activate the virtual environment:
-   - For PowerShell:  
-     - `.\venv\Scripts\Activate.ps1`
-   - For Command Prompt:  
-     - `venv\Scripts\activate`
-   - For macOS/Linux:  
-     - `source venv/bin/activate`
-5. Install the required packages:
-   - `pip install -r requirements.txt`
-6. Run the tests to ensure everything is set up correctly:
-   - Windows:  
-     - `py -m pytest tests/`
-   - macOS:  
-     - `python3 -m pytest tests/`
-   - Linux:  
-     - `python3 -m pytest tests/`
+A brief description of what the project does, its purpose, and its main features.
 
-7. Use -v to run verbose and to see debug prints
-   - `py -m pytest -v -s tests/`
+## Table of Contents
 
----
+1. [Technologies Used](#technologies-used)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Documentation](#documentation)
 
-# Cucumber Style Documentation
+## Technologies Used
+
+- **Programming Language**: Python
+- **Testing Framework**: pytest
+- **Web Automation**: Selenium
+- **Libraries**: 
+  - See [requirements.txt](requirements.txt) for a complete list of libraries and dependencies.
+
+## Installation
+
+1. **Clone the Repository**:
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
+
+2. **Python**:
+   - Ensure Python 3.x is installed. You can download it from [python.org](https://www.python.org/downloads/).
+
+3. **pip**:
+   - Install pip, the package installer for Python, if it’s not already included with your Python installation.
+
+4. **Web Drivers**:
+   - **ChromeDriver**: For Chrome users, download it from [chromedriver](https://developer.chrome.com/docs/chromedriver/downloads).
+   - **GeckoDriver**: For Firefox users, download it from [GeckoDriver releases](https://github.com/mozilla/geckodriver/releases).
+
+5. **Navigate into the Project Directory**:
+   ```bash
+   cd <repository-directory>
+   ```
+
+6. **Create a Virtual Environment**:
+   ```bash
+   python -m venv venv
+   ```
+
+7. **Change Execution Policy (Windows PowerShell)**:
+   If you're using PowerShell on Windows, you may need to change the execution policy. Run:
+   ```bash
+   Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+   ```
+
+8. **Activate the Virtual Environment**:
+   - For PowerShell:
+     ```bash
+     .\venv\Scripts\Activate.ps1
+     ```
+   - For Command Prompt:
+     ```bash
+     venv\Scripts\activate
+     ```
+   - For macOS/Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+
+9. **Install Dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Usage
+1. **Run the Tests**:
+    - On Windows:
+      ```bash
+      py -m pytest tests/
+      ```
+    - On macOS:
+      ```bash
+      python3 -m pytest tests/
+      ```
+    - On Linux:
+      ```bash
+      python3 -m pytest tests/
+      ```
+
+2. **Run Tests Verbosely**:
+    - Use the `-v` flag to run tests in verbose mode and see debug prints:
+        ```bash
+        py -m pytest -v -s tests/
+        ```
+
+# Documentation
 
 ## Scenario: Valid Login
 **Given** the user enters valid credentials  

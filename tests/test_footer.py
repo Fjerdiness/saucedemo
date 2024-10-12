@@ -1,7 +1,6 @@
-import pytest
 from helpers.base_settings import *
 from helpers.page_selectors import * # And I done it again
-from tests import test_login, test_main_page
+from tests import test_login
 
 # HELPERS
 
