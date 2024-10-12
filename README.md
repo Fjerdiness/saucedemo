@@ -1,6 +1,6 @@
 # Project Title
 
-A brief description of what the project does, its purpose, and its main features.
+Just to show some skills for possible employer
 
 ## Table of Contents
 
@@ -71,25 +71,30 @@ A brief description of what the project does, its purpose, and its main features
     ```
 
 ## Usage
-1. **Run the Tests**:
-    - On Windows:
-      ```bash
-      py -m pytest tests/
-      ```
-    - On macOS:
-      ```bash
-      python3 -m pytest tests/
-      ```
-    - On Linux:
-      ```bash
-      python3 -m pytest tests/
-      ```
+- On Windows:
+```bash
+py -m pytest tests/
+```
+- On macOS:
+```bash
+python3 -m pytest tests/
+```
+- On Linux:
+```bash
+python3 -m pytest tests/
+```
 
-2. **Run Tests Verbosely**:
-    - Use the `-v` flag to run tests in verbose mode and see debug prints:
-        ```bash
-        py -m pytest -v -s tests/
-        ```
+- Use the `-v` flag to run tests in verbose mode and see debug prints:
+        
+```bash
+py -m pytest -v -s tests/
+```
+
+- To run a specific test using `pytest`, you can use the following command:
+
+```bash
+py -m pytest -v -s tests/%MODULE_NAME%.py::%TEST_CASE_NAME%
+```
 
 # Documentation
 
