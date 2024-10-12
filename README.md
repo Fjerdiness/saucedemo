@@ -2,6 +2,14 @@
 
 Just to show some skills for possible employer. Tests are parametrized for crossbrowser testing and some of them parametrized with additional values like username/password and so on. Pytest reporting reflects it in TCs names. Full run against two browsers take around 12 minutes. 
 
+Project structured like:
+- [helpers folder](./helpers)  
+  - Contains helper methods, constants, and selectors.
+- [tests folder](./tests)  
+  - Contains tests organized according to the screens where they start.
+- [conftests.py](./tests/conftest.py)  
+  - Contains settings for the driver; currently minimal, but serves as a proof of concept.
+
 ## Table of Contents
 
 1. [Technologies Used](#technologies-used)
