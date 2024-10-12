@@ -1,3 +1,25 @@
+# How To:
+0. Clone repo
+1. Navigate into the project directory:
+- `cd saucedemo`
+2. Create a virtual environment:
+- `python -m venv venv`
+3. If you're using PowerShell on Windows, you may need to change the execution policy. Run:  
+- `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`
+
+5. Activate the virtual environment:
+- For PowerShell:
+- `.\venv\Scripts\Activate.ps1`
+- For Command Prompt:
+- `venv\Scripts\activate`
+- For macOS/Linux:
+- `source venv/bin/activate`
+
+6. Install the required packages:
+- `pip install -r requirements.txt`
+7. Run the tests to ensure everything is set up correctly:
+- `pytest tests/`
+
 # [SauceDemo.com](https://www.saucedemo.com/)
 
 ## Scenario: Valid Login
