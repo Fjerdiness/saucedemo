@@ -1,6 +1,6 @@
-# Project Title
+# Saucedemo
 
-Just to show some skills for possible employer
+Just to show some skills for possible employer. Tests are parametrized for crossbrowser testing and some of them parametrized with additional values like username/password and so on. Pytest reporting reflects it in TCs names. Full run against two browsers take around 12 minutes. 
 
 ## Table of Contents
 
