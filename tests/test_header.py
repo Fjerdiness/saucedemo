@@ -1,7 +1,8 @@
 import time
 import pytest
+from helpers import base_actions
 from helpers.base_settings import *
-from tests import base_actions, test_login, test_cart
+from tests import test_login, test_cart
 from helpers.page_selectors import * # And I done it again
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait

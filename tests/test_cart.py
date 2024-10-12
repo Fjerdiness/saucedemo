@@ -1,6 +1,7 @@
+import time
 import pytest
 from helpers.base_settings import *
-from tests import base_actions
+from helpers import base_actions
 from helpers.page_selectors import * # And I done it again
 from tests import test_login, test_main_page
 
@@ -24,10 +25,9 @@ def checkout_step_1_assert(driver, is_valid: bool):
     else: 
         base_actions.assert_is_element_displayed(driver, CHECKOUT_ERROR_CONTATINER)
 
-# def assert_checkout_error_message(driver, expected_message: str):
 
 
-def fill_checkout_step_1(driver, first_name: str, last_name: str, zip: str):
+def fill_checkout_step_1(driver, first_name: str="TestFirstName", last_name: str="TestLastName", zip: str="111"):
     driver.find_element(*FIRST_NAME_INPUT).send_keys(first_name)
     driver.find_element(*LAST_NAME_INPUT).send_keys(last_name)
     driver.find_element(*ZIP_INPUT).send_keys(zip)
@@ -71,7 +71,7 @@ def test_valid_checkout(driver):
 
     go_to_cart_assert(driver)
     go_to_checkout_1_step_assert(driver)
-    fill_checkout_step_1(driver, "Test", "Est", 123)
+    fill_checkout_step_1(driver)
     checkout_step_1_assert(driver, True)
     finish_checkout_assert(driver)
 
@@ -86,7 +86,8 @@ def test_empty_info_checkout(driver):
     fill_checkout_step_1(driver, "", "", "")
     checkout_step_1_assert(driver, False)
 
-def test_empty_info_checkout(driver):
+@pytest.mark.parametrize("first_name, last_name, zip, expected_error_msg", INVALID_CHECKOUT_INFO_STR)
+def test_non_valid_login_checkout(driver, first_name, last_name, zip, expected_error_msg):
     items_amount = 1
 
     test_login.login(driver)  
@@ -94,8 +95,9 @@ def test_empty_info_checkout(driver):
 
     go_to_cart_assert(driver)
     go_to_checkout_1_step_assert(driver)
-    fill_checkout_step_1(driver, "", "", "")
+    fill_checkout_step_1(driver, first_name, last_name, zip)
     checkout_step_1_assert(driver, False)
+    base_actions.assert_element_text(driver, CHECKOUT_ERROR_CONTATINER, expected_error_msg)
 
 def test_checkout_button_visibility(driver):
     items_amount = 1

@@ -34,10 +34,16 @@ LOGIN_ERRORS_STR = [
 ]
 
 
-CHECKOUT_ERRORS = [
+CHECKOUT_ERRORS_STR = [
     "Error: First Name is required",
     "Error: Last Name is required",
     "Error: Postal Code is required",
+]
+
+INVALID_CHECKOUT_INFO_STR = [
+    ("", "ValidLastName", "111", CHECKOUT_ERRORS_STR[0]),
+    ("ValidFirstName", "", "111", CHECKOUT_ERRORS_STR[1]), 
+    ("ValidFirstName", "ValidLastName", "", CHECKOUT_ERRORS_STR[2]),
 ]
 
 def get_credentials(user_type: str)  -> Tuple[str, str]:

@@ -1,8 +1,9 @@
 
 import time
 import pytest
+from helpers import base_actions
 from helpers.base_settings import *
-from tests import test_login, base_actions
+from tests import test_login
 from helpers.page_selectors import * # And I done it again
 from selenium.common.exceptions import NoSuchElementException
 
