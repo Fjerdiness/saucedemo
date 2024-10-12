@@ -6,6 +6,10 @@ from helpers.base_settings import *
 from tests import test_login
 from helpers.page_selectors import * # And I done it again
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
 
 # HELPERS
 
@@ -28,7 +32,7 @@ def assert_cart_badge(driver, items_amount: int) -> None:
     assert cart_badge.text == str(items_amount), \
         f"Expected '{items_amount}' in cart, but got '{cart_badge.text}'."
 
-def assert_updated_cart_badge(driver, items_amount):
+def assert_updated_cart_badge(driver, items_amount) -> None:
     driver.find_element(*REMOVE_BACKPACK).click()
     updated_items_amount = items_amount - 1
     if updated_items_amount == 0:
@@ -38,7 +42,7 @@ def assert_updated_cart_badge(driver, items_amount):
         assert cart_badge.text == str(updated_items_amount), \
             f"Expected '{updated_items_amount}' in cart after removal, but got '{cart_badge.text}'."
 
-def check_dropdown_assert_values(driver):
+def check_dropdown_assert_values(driver) -> None:
     filters_dropdown = driver.find_element(*FILTERS_DRPDWN_MENU)
     assert filters_dropdown.is_displayed(), "Filters dropdown is not visible."
 
@@ -49,6 +53,59 @@ def check_dropdown_assert_values(driver):
         filters_dropdown = driver.find_element(*FILTERS_DRPDWN_MENU)
         assert driver.find_element(*option_selector).is_selected(), f"{option_name} sorting option is not selected."
 
+def select_dropdown_option_assert(driver, option_selector) -> None:
+    filters_dropdown = driver.find_element(*FILTERS_DRPDWN_MENU)
+    filters_dropdown.click()
+
+    driver.find_element(*option_selector).click()
+
+    assert driver.find_element(*option_selector).is_selected(), f"{option_selector} sorting option is not selected."
+
+def assert_ordering_by_letters(product_list:list[str], is_descending_order:bool) -> None:
+    titles = [product['title'] for product in product_list]
+    if is_descending_order: 
+        sorted_titles = sorted(titles, reverse=True)
+        assert titles == sorted_titles, "The product list is not in Z to A order."
+    else: 
+        sorted_titles = sorted(titles, reverse=False)
+        assert titles == sorted_titles, "The product list is not in A to Z order."
+    
+def assert_ordering_by_price(product_list:list[str], is_descending_order:bool) -> None:
+    prices = [float(product['price'].replace('$', '')) for product in product_list]
+    if is_descending_order: 
+        sorted_titles = sorted(prices, reverse=True)
+        assert prices == sorted_titles, "The product list is not in Low to High pricing order."
+    else: 
+        sorted_titles = sorted(prices, reverse=False)
+        assert prices == sorted_titles, "The product list is not in High to Low pricing order."
+
+def get_items_list(driver) -> list[str]:
+    # Extract the text from each card and split it into lines
+
+    all_product_cards = driver.find_elements(*ALL_PRODUCT_CARDS)
+    products = [] 
+
+    for card in all_product_cards:
+        card_text = card.text.splitlines()
+        
+        if len(card_text) >= 4:
+            title = card_text[0]
+            description = card_text[1]
+            price = card_text[2]
+            button = card_text[3]
+
+            product = {
+                "title": title,
+                "description": description,
+                "price": price,
+                "button": button
+            }
+            products.append(product)
+
+    for product in products:
+        print(product) # debug lines
+
+    return products
 
 # TESTS
 
@@ -73,7 +130,6 @@ def test_updating_cart_badge(driver, items_amount):
     assert_cart_badge(driver, items_amount)
     assert_updated_cart_badge(driver, items_amount)
 
-
 def test_filters_dropdown_visibility(driver):
     items_amount = 1
 
@@ -81,11 +137,31 @@ def test_filters_dropdown_visibility(driver):
     add_items_to_cart(driver, items_amount)
     check_dropdown_assert_values(driver)
 
+def test_sorting_by_letter_reverse(driver):
+    test_login.login(driver)
+    select_dropdown_option_assert(driver, DROPDOWN_MENU_OPTIONS["Z to A"])
+    products_list = get_items_list(driver)
+    assert_ordering_by_letters(products_list, True)
 
+def test_sorting_by_letter(driver):
+    test_login.login(driver)
+    select_dropdown_option_assert(driver, DROPDOWN_MENU_OPTIONS["Z to A"])
+    products_list = get_items_list(driver)
+    assert_ordering_by_letters(products_list, True)
+    select_dropdown_option_assert(driver, DROPDOWN_MENU_OPTIONS["A to Z"])
+    products_list = get_items_list(driver)
+    assert_ordering_by_letters(products_list, False)
 
+def test_sorting_by_price_reverse(driver):
+    test_login.login(driver)
+    select_dropdown_option_assert(driver, DROPDOWN_MENU_OPTIONS["Low to High"])
+    products_list = get_items_list(driver)
+    assert_ordering_by_price(products_list, False)
 
-
-
-
+def test_sorting_by_price(driver):
+    test_login.login(driver)
+    select_dropdown_option_assert(driver, DROPDOWN_MENU_OPTIONS["High to Low"])
+    products_list = get_items_list(driver)
+    assert_ordering_by_price(products_list, True)
 
 

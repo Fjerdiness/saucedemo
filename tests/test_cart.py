@@ -7,19 +7,19 @@ from tests import test_login, test_main_page
 
 # HELPERS
 
-def go_to_cart_assert(driver):
+def go_to_cart_assert(driver) -> None:
     driver.find_element(*CART_BTN).click()
     base_actions.assert_URL(driver, CART_URL)
     
-def continue_shopping_click_assert(driver):
+def continue_shopping_click_assert(driver) -> None:
     driver.find_element(*CONTINUE_SHOPPING_BTN).click()
     base_actions.assert_URL(driver, INVENTORY_URL)
 
-def go_to_checkout_1_step_assert(driver):
+def go_to_checkout_1_step_assert(driver) -> None:
     driver.find_element(*CHECKOUT_BTN).click()
     base_actions.assert_URL(driver, CHECKOUT_1_URL)
 
-def checkout_step_1_assert(driver, is_valid: bool):
+def checkout_step_1_assert(driver, is_valid: bool) -> None:
     if is_valid:
         base_actions.assert_URL(driver, CHECKOUT_2_URL)
     else: 

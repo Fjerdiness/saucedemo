@@ -84,6 +84,36 @@
 
 ---
 
+## Scenario: Sorting by Letter (Reverse)
+**Given** the user is logged in  
+**When** the user selects the "Z to A" option from the dropdown menu  
+**Then** the product titles should be sorted in descending order (Z to A)  
+
+---
+
+## Scenario: Sorting by Letter
+**Given** the user is logged in  
+**When** the user selects the "Z to A" option  
+**Then** the product titles should be sorted in descending order  
+**And** the user selects the "A to Z" option  
+**Then** the product titles should be sorted in ascending order (A to Z)  
+
+---
+
+## Scenario: Sorting by Price (Reverse)
+**Given** the user is logged in  
+**When** the user selects the "Low to High" option  
+**Then** the product prices should be sorted in ascending order (Low to High)  
+
+---
+
+## Scenario: Sorting by Price
+**Given** the user is logged in  
+**When** the user selects the "High to Low" option  
+**Then** the product prices should be sorted in descending order (High to Low)  
+
+---
+
 ## Scenario: Cart Button Visibility
 **Given** the user is logged in  
 **Then** the cart button should be visible  

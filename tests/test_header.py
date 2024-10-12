@@ -9,7 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # HELPERS
-def assert_burger_menu_buttons_visibility(driver):
+def assert_burger_menu_buttons_visibility(driver) -> None:
     driver.find_element(*BURGER_MENU_BTN).click()  
     WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((BURGER_MENU_SUBBTNS["All Items"]))
@@ -17,7 +17,7 @@ def assert_burger_menu_buttons_visibility(driver):
     for button_name, button_selector in BURGER_MENU_SUBBTNS.items():
         assert driver.find_element(*button_selector).is_displayed(), f"{button_name} button is not visible."
 
-def click_burger_menu_option(driver, *button_selector):
+def click_burger_menu_option(driver, *button_selector) -> None:
     driver.find_element(*BURGER_MENU_BTN).click()  
     WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((BURGER_MENU_SUBBTNS["All Items"])) # Waiting till burger menu animation

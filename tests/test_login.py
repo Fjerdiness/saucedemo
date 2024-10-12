@@ -8,7 +8,7 @@ from helpers import base_actions
     
 # HELPERS    
 
-def login(driver, username: str="standard_user", password: str="secret_sauce"):
+def login(driver, username: str="standard_user", password: str="secret_sauce") -> None:
     driver.get(BASE_URL)
     driver.find_element(*USERNAME_INPUT).send_keys(username)
     driver.find_element(*PASSWORD_INPUT).send_keys(password)

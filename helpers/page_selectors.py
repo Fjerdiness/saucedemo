@@ -77,6 +77,10 @@ ITEMS = {
     },
 }
 
+# ITEMS CONTAINER
+
+GENERAL_CONTAINER = (By.CSS_SELECTOR, ".inventory_list")
+ALL_PRODUCT_CARDS = (By.CSS_SELECTOR, ".inventory_list > *")
 
 # FOOTER
 
