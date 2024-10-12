@@ -39,7 +39,7 @@ def finish_checkout_assert(driver):
 def cancel_checkout_assert(driver):
     driver.find_element(*CANCEL_BTN).click()
     current_url = driver.current_url
-    assert current_url == INVENTORY_URL, f"Expected URL '{INVENTORY_URL}', but got '{current_url}'."
+    assert current_url == CART_URL, f"Expected URL '{CART_URL}', but got '{current_url}'."
 
 def assert_checkout_btn_is_not_visible():
     assert CHECKOUT_BTN.is_displayed(), "Checkout button is not visible."
@@ -96,7 +96,7 @@ def test_checkout_button_visibility(driver):
     go_to_cart_assert(driver)
     go_to_checkout_1_step_assert(driver)
     
-    assert_checkout_btn_is_not_visible()
+    base_actions.is_element_displayed(driver, CONTINUE_CHECKOUT_BTN)
 
 def test_cancel_checkout(driver):
     items_amount = 1

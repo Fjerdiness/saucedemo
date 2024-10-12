@@ -11,6 +11,6 @@ def assert_URL(driver, expected_url: str):
     assert driver.current_url == expected_url, \
             f"Expected URL '{expected_url}', but got '{driver.current_url}'"
     
-def is_btn_displayed(driver, button):
+def is_element_displayed(driver, button):
     button_element = driver.find_element(*button)
-    assert button_element.is_displayed(), f"The button with selector {button} is not visible."
+    assert button_element.is_displayed(), f"The element with selector {button} is not visible."

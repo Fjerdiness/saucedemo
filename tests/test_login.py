@@ -19,7 +19,7 @@ def login(driver, username: str="standard_user", password: str="secret_sauce"):
 def test_valid_login(driver, username, password):
     login(driver, username, password)
     base_actions.assert_URL(driver, INVENTORY_URL)
-    assert HEADER_LOGO.is_displayed(), "Header logo is not visible."
+    base_actions.is_element_displayed(driver, HEADER_LOGO)
 
 @pytest.mark.parametrize("username,password", NON_VALID_CREDS.items())    
 def test_locked_out_login(driver, username, password):

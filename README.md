@@ -1,5 +1,5 @@
 # How To:
-0. Clone repo
+0. Clone rep
 1. Navigate into the project directory:
 - `cd saucedemo`
 2. Create a virtual environment:
