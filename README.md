@@ -41,7 +41,7 @@ Project structured like:
 
 4. **Web Drivers**:
    - **ChromeDriver**: For Chrome users, download it from [chromedriver](https://developer.chrome.com/docs/chromedriver/downloads).
-   - **GeckoDriver**: For Firefox users, download it from [GeckoDriver releases](https://github.com/mozilla/geckodriver/releases).
+   - **EdgeDriver**: For Edge users, download [it](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/?form=MA13LH)
 
 5. **Navigate into the Project Directory**:
    ```bash
