@@ -35,18 +35,7 @@ def assert_updated_cart_badge(driver, items_amount) -> None:
         assert cart_badge.text == str(updated_items_amount), \
             f"Expected '{updated_items_amount}' in cart after removal, but got '{cart_badge.text}'."
 
-def assert_dropdown_sort_values(driver) -> None:
-    filters_dropdown = driver.find_element(*FILTERS_DRPDWN_MENU)
-    assert filters_dropdown.is_displayed(), "Filters dropdown is not visible."
-
-    for option_name, option_selector in DROPDOWN_MENU_OPTIONS.items():
-        filters_dropdown.click()  
-        assert driver.find_element(*option_selector).is_displayed(), f"{option_name} sorting option is not visible."
-        driver.find_element(*option_selector).click()  
-        filters_dropdown = driver.find_element(*FILTERS_DRPDWN_MENU)
-        assert driver.find_element(*option_selector).is_selected(), f"{option_name} sorting option is not selected."
-
-def select_dropdown_option_assert(driver, option_selector) -> None:
+def assert_dropdown_options(driver, option_selector) -> None:
     filters_dropdown = driver.find_element(*FILTERS_DRPDWN_MENU)
     filters_dropdown.click()
 
@@ -110,38 +99,16 @@ def test_updating_cart_badge(driver, items_amount):
     assert_cart_badge(driver, items_amount)
     assert_updated_cart_badge(driver, items_amount)
 
-def test_filters_dropdown_visibility(driver):
-    items_amount = 1
-
+@pytest.mark.parametrize("option", SORTING_OPTIONS.keys())
+def test_sorting(driver, option):
+    option_details = SORTING_OPTIONS[option]
+    expected_order = option_details["expected_order"]
+    sorting_value = option_details["sorting_value"]
+    
     test_login.login(driver)
-    add_items_to_cart(driver, items_amount)
-    assert_dropdown_sort_values(driver)
+    assert_dropdown_options(driver, option_details["xpath"])
+    products_list = get_items_list(driver)
+    assert_sorting_by_value(products_list, expected_order, sorting_value)
 
-def test_sorting_by_letter_reverse(driver):
-    test_login.login(driver)
-    select_dropdown_option_assert(driver, DROPDOWN_MENU_OPTIONS["Z to A"])
-    products_list = get_items_list(driver)
-    assert_sorting_by_value(products_list, True, 'title')
-
-def test_sorting_by_letter(driver):
-    test_login.login(driver)
-    select_dropdown_option_assert(driver, DROPDOWN_MENU_OPTIONS["Z to A"])
-    products_list = get_items_list(driver)
-    assert_sorting_by_value(products_list, True, 'title')
-    select_dropdown_option_assert(driver, DROPDOWN_MENU_OPTIONS["A to Z"])
-    products_list = get_items_list(driver)
-    assert_sorting_by_value(products_list, False, 'title')
-
-def test_sorting_by_price_reverse(driver):
-    test_login.login(driver)
-    select_dropdown_option_assert(driver, DROPDOWN_MENU_OPTIONS["Low to High"])
-    products_list = get_items_list(driver)
-    assert_sorting_by_value(products_list, False, 'price')
-
-def test_sorting_by_price(driver):
-    test_login.login(driver)
-    select_dropdown_option_assert(driver, DROPDOWN_MENU_OPTIONS["High to Low"])
-    products_list = get_items_list(driver)
-    assert_sorting_by_value(products_list, True, 'price')
 
 
