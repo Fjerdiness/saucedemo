@@ -18,10 +18,16 @@ def add_items_to_cart(driver, items_amount: int) -> None:
         driver.find_element(*item_button).click()
 
 
-def assert_cart_badge(driver, items_amount: int) -> None:
+def validate_cart_badge_display(driver, items_amount: int) -> None:
+    if not isinstance(items_amount, int):
+        raise ValueError("items_amount must be an integer.")
 
-    cart_badge = driver.find_element(*CART_BADGE)
-    assert cart_badge.is_displayed(), "Cart badge is not displayed."
+    try:
+        cart_badge = driver.find_element(*CART_BADGE)
+        assert cart_badge.is_displayed(), "Cart badge is not displayed."
+    except NoSuchElementException:
+        raise AssertionError("Cart badge element not found.")
+    
     assert cart_badge.text == str(items_amount), \
         f"Expected '{items_amount}' in cart, but got '{cart_badge.text}'."
 
@@ -90,13 +96,13 @@ def test_burger_menu_button_visible(driver):
 def test_add_all_items_to_cart(driver, items_amount) -> None:
     test_login.login(driver)  
     add_items_to_cart(driver, items_amount)
-    assert_cart_badge(driver, items_amount)
+    validate_cart_badge_display(driver, items_amount)
 
 @pytest.mark.parametrize("items_amount", range(1, 7))
 def test_updating_cart_badge(driver, items_amount):
     test_login.login(driver)
     add_items_to_cart(driver, items_amount)
-    assert_cart_badge(driver, items_amount)
+    validate_cart_badge_display(driver, items_amount)
     assert_updated_cart_badge(driver, items_amount)
 
 @pytest.mark.parametrize("option", SORTING_OPTIONS.keys())
