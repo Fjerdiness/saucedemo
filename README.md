@@ -81,15 +81,15 @@ Project structured like:
 ## Usage
 - On Windows:
 ```bash
-py -m pytest tests/
+py -m pytest --headless
 ```
 - On macOS:
 ```bash
-python3 -m pytest tests/
+python3 -m pytest --headless
 ```
 - On Linux:
 ```bash
-python3 -m pytest tests/
+python3 -m pytest --headless
 ```
 
 - Use the `-v` flag to run tests in verbose mode and see debug prints:
