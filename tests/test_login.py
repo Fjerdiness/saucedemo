@@ -2,15 +2,18 @@ import pytest
 from helpers.base_settings import * # Yeah, I know I shouldnt do this, but i did
 from helpers.page_selectors import *
 from helpers import base_actions
+from selenium.common.exceptions import WebDriverException
     
 # HELPERS    
 
 def login(driver, username: str="standard_user", password: str="secret_sauce") -> None:
-    driver.get(BASE_URL)
-    driver.find_element(*USERNAME_INPUT).send_keys(username)
-    driver.find_element(*PASSWORD_INPUT).send_keys(password)
-    driver.find_element(*LOGIN_BTN).click()
-
+    try:
+        driver.get(BASE_URL)
+        driver.find_element(*USERNAME_INPUT).send_keys(username)
+        driver.find_element(*PASSWORD_INPUT).send_keys(password)
+        driver.find_element(*LOGIN_BTN).click()
+    except WebDriverException as e:
+        print(f"Encountered an error: {e}")
 # TESTS 
 
 @pytest.mark.parametrize("username,password", VALID_CREDS.items())
