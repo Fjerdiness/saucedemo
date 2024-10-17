@@ -49,9 +49,9 @@ def assert_dropdown_options(driver, option_selector) -> None:
 
     assert driver.find_element(*option_selector).is_selected(), f"{option_selector} sorting option is not selected."
 
-def assert_sorting_by_value(product_list:list[str], is_descending_order:bool, sorting_value: str) -> None:
+def assert_sorting_by_value(product_list:list[str], is_descending_order: str, sorting_value: str) -> None:
     titles = [product[sorting_value] for product in product_list]
-    if is_descending_order: 
+    if is_descending_order == "reverse": 
         sorted_titles = sorted(titles, reverse=True)
         assert titles == sorted_titles, "The product list is not in Z to A order."
     else: 

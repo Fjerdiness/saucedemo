@@ -28,22 +28,22 @@ BURGER_MENU_SUBBTNS = {
 SORTING_OPTIONS = {
     "A to Z": {
         "xpath": (By.XPATH, "//option[normalize-space(text())='Name (A to Z)']"),
-        "expected_order": False,
+        "expected_order": 'straight',
         "sorting_value": 'title'
     },
     "Z to A": {
         "xpath": (By.XPATH, "//option[normalize-space(text())='Name (Z to A)']"),
-        "expected_order": True,
+        "expected_order": 'reverse',
         "sorting_value": 'title'
     },
     "Low to High": {
         "xpath": (By.XPATH, "//option[@value='lohi']"),
-        "expected_order": False,
+        "expected_order": 'straight',
         "sorting_value": 'price'
     },
     "High to Low": {
         "xpath": (By.XPATH, "//option[@value='hilo']"),
-        "expected_order": True,
+        "expected_order": 'reverse',
         "sorting_value": 'price'
     }
 }
