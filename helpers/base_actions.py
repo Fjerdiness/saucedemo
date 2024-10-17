@@ -61,8 +61,7 @@ def assert_element_text(driver, selector: Tuple[By, str], expected_text: str) ->
     """
     element = driver.find_element(*selector)
     actual_text = element.text
-    if actual_text != expected_text:
-        raise AssertionError(f"Expected text '{expected_text}', but got '{actual_text}'")
+    assert actual_text == expected_text, f"Expected text '{expected_text}', but got '{actual_text}'"
 
 def get_element_text(driver, selector: Tuple[By, str]) -> str:
     """
