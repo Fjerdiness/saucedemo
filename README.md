@@ -162,33 +162,19 @@ py -m pytest -v -s tests/%MODULE_NAME%.py::%TEST_CASE_NAME%
 
 ---
 
-## Scenario: Sorting by Letter (Reverse)
+## Scenario: Sorting Products by Title and Price
 **Given** the user is logged in  
-**When** the user selects the "Z to A" option from the dropdown menu  
-**Then** the product titles should be sorted in descending order (Z to A)  
+**When** the user selects the "{option}" option from the dropdown menu  
+**Then** the product titles should be sorted in "{order}" order  
 
----
-
-## Scenario: Sorting by Letter
-**Given** the user is logged in  
-**When** the user selects the "Z to A" option  
-**Then** the product titles should be sorted in descending order  
-**And** the user selects the "A to Z" option  
-**Then** the product titles should be sorted in ascending order (A to Z)  
-
----
-
-## Scenario: Sorting by Price (Reverse)
-**Given** the user is logged in  
-**When** the user selects the "Low to High" option  
-**Then** the product prices should be sorted in ascending order (Low to High)  
-
----
-
-## Scenario: Sorting by Price
-**Given** the user is logged in  
-**When** the user selects the "High to Low" option  
-**Then** the product prices should be sorted in descending order (High to Low)  
+### Parameterized Inputs
+- **Sorting Options**: 
+  - **Input:** 
+    - `("Z to A", "reverse")`
+    - `("A to Z", "straight")`
+    - `("Low to High", "straight")`
+    - `("High to Low", "reverse")`
+  - **Expected Result:** Products are sorted as specified.
 
 ---
 
