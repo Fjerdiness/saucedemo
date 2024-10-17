@@ -9,6 +9,19 @@ from selenium.common.exceptions import NoSuchElementException
 # HELPERS
 
 def add_items_to_cart(driver, items_amount: int) -> None:
+    """
+    Adds a specified number of items to the cart.
+
+    Args:
+        driver (webdriver): The Selenium WebDriver instance used to control the browser.
+        items_amount (int): The number of items to add to the cart.
+
+    Raises:
+        ValueError: If the requested number of items is greater than the available items or less than or equal to zero.
+
+    Example:
+        add_items_to_cart(driver, 3)
+    """
     item_buttons = [item["add_to_cart"] for item in ITEMS.values()]
 
     if items_amount > len(item_buttons) or items_amount <= 0:
@@ -19,6 +32,20 @@ def add_items_to_cart(driver, items_amount: int) -> None:
 
 
 def validate_cart_badge_display(driver, items_amount: int) -> None:
+    """
+    Validates that the cart badge is displayed and shows the correct number of items.
+
+    Args:
+        driver (webdriver): The Selenium WebDriver instance used to control the browser.
+        items_amount (int): The expected number of items in the cart.
+
+    Raises:
+        ValueError: If items_amount is not an integer.
+        AssertionError: If the cart badge is not displayed or shows incorrect items.
+
+    Example:
+        validate_cart_badge_display(driver, 2)
+    """
     if not isinstance(items_amount, int):
         raise ValueError("items_amount must be an integer.")
 
@@ -31,17 +58,45 @@ def validate_cart_badge_display(driver, items_amount: int) -> None:
     assert cart_badge.text == str(items_amount), \
         f"Expected '{items_amount}' in cart, but got '{cart_badge.text}'."
 
+
 def assert_updated_cart_badge(driver, items_amount) -> None:
+    """
+    Asserts that the cart badge updates correctly after removing an item.
+
+    Args:
+        driver (webdriver): The Selenium WebDriver instance used to control the browser.
+        items_amount (int): The current number of items in the cart.
+
+    Raises:
+        AssertionError: If the cart badge does not update as expected.
+
+    Example:
+        assert_updated_cart_badge(driver, 3)
+    """
     driver.find_element(*REMOVE_BACKPACK).click()
     updated_items_amount = items_amount - 1
     if updated_items_amount == 0:
-            assert not driver.find_elements(*CART_BADGE), "Cart badge should not be displayed when cart is empty."
+        assert not driver.find_elements(*CART_BADGE), "Cart badge should not be displayed when cart is empty."
     else:
         cart_badge = driver.find_element(*CART_BADGE)
         assert cart_badge.text == str(updated_items_amount), \
             f"Expected '{updated_items_amount}' in cart after removal, but got '{cart_badge.text}'."
 
+
 def assert_dropdown_options(driver, option_selector) -> None:
+    """
+    Asserts that a specified option in the dropdown menu is selected.
+
+    Args:
+        driver (webdriver): The Selenium WebDriver instance used to control the browser.
+        option_selector: The selector for the option to validate.
+
+    Raises:
+        AssertionError: If the specified option is not selected.
+
+    Example:
+        assert_dropdown_options(driver, (By.XPATH, "//option[@value='asc']"))
+    """
     filters_dropdown = driver.find_element(*FILTERS_DRPDWN_MENU)
     filters_dropdown.click()
 
@@ -49,24 +104,50 @@ def assert_dropdown_options(driver, option_selector) -> None:
 
     assert driver.find_element(*option_selector).is_selected(), f"{option_selector} sorting option is not selected."
 
-def assert_sorting_by_value(product_list:list[str], is_descending_order: str, sorting_value: str) -> None:
+
+def assert_sorting_by_value(product_list: list[str], is_descending_order: str, sorting_value: str) -> None:
+    """
+    Asserts that the product list is sorted by a specified value in the expected order.
+
+    Args:
+        product_list (list[str]): The list of products to validate.
+        is_descending_order (str): Indicates sorting order ("reverse" for descending).
+        sorting_value (str): The attribute by which to sort (e.g., "title").
+
+    Raises:
+        AssertionError: If the product list is not sorted as expected.
+
+    Example:
+        assert_sorting_by_value(products, "reverse", "price")
+    """
     titles = [product[sorting_value] for product in product_list]
-    if is_descending_order == "reverse": 
+    if is_descending_order == "reverse":
         sorted_titles = sorted(titles, reverse=True)
         assert titles == sorted_titles, "The product list is not in Z to A order."
-    else: 
+    else:
         sorted_titles = sorted(titles, reverse=False)
         assert titles == sorted_titles, "The product list is not in A to Z order."
-    
-def get_items_list(driver) -> list[str]:
-    # extract the text from each card and split it into lines
 
+
+def get_items_list(driver) -> list[str]:
+    """
+    Retrieves a list of products from the product cards on the page.
+
+    Args:
+        driver (webdriver): The Selenium WebDriver instance used to control the browser.
+
+    Returns:
+        list[str]: A list of dictionaries containing product details (title, description, price, button).
+
+    Example:
+        products = get_items_list(driver)
+    """
+    # Extract the text from each card and split it into lines
     all_product_cards = driver.find_elements(*ALL_PRODUCT_CARDS)
-    products = [] 
+    products = []
 
     for card in all_product_cards:
         card_text = card.text.splitlines()
-        # strictly speaking there should be something like if len >= 4 or something, if some card wont have necessary info and they should be handled 
         title = card_text[0]
         description = card_text[1]
         price = float(card_text[2].replace('$', ''))

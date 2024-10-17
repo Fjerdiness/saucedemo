@@ -1,6 +1,12 @@
 
 from typing import Tuple
 
+def get_credentials(user_type: str)  -> Tuple[str, str]:
+    password = NON_VALID_CREDS.get(user_type)
+    if password is not None:
+        return user_type, password  
+    return None, None
+
 
 BASE_URL = "https://www.saucedemo.com/"
 INVENTORY_URL = BASE_URL + "inventory.html"
@@ -45,9 +51,3 @@ INVALID_CHECKOUT_INFO_STR = [
     ("ValidFirstName", "", "111", CHECKOUT_ERRORS_STR[1]), 
     ("ValidFirstName", "ValidLastName", "", CHECKOUT_ERRORS_STR[2]),
 ]
-
-def get_credentials(user_type: str)  -> Tuple[str, str]:
-    password = NON_VALID_CREDS.get(user_type)
-    if password is not None:
-        return user_type, password  
-    return None, None

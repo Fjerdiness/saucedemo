@@ -1,6 +1,22 @@
 from typing import Tuple
 from selenium.webdriver.common.by import By
 
+def get_button_selector(item_name: str, button_type: str) -> Tuple[By, str]:
+    """
+    Constructs a CSS selector for a button based on the item name and button type.
+
+    Args:
+        item_name (str): The name of the item for which the button is being selected.
+        button_type (str): The type of the button (e.g., 'add_to_cart', 'remove').
+
+    Returns:
+        Tuple[By, str]: A tuple containing the selector strategy and the CSS selector string.
+
+    Example:
+        selector = get_button_selector("backpack", "add_to_cart")
+        # This would return (By.CSS_SELECTOR, "button[data-test='add_to_cart-backpack']")
+    """
+    return (By.CSS_SELECTOR, f"button[data-test='{button_type}-{item_name}']")
 
 
 # LOGIN PAGE
@@ -50,10 +66,6 @@ SORTING_OPTIONS = {
 
 
 # ITEMS LIST
-
-# Helper function to generate button selectors based on item name
-def get_button_selector(item_name: str, button_type: str) -> Tuple[By, str]:
-    return (By.CSS_SELECTOR, f"button[data-test='{button_type}-{item_name}']")
 
 ITEMS = {
     "Backpack": {

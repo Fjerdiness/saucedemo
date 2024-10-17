@@ -9,6 +9,18 @@ DEFAULT_TIMEOUT = 10
 
 # HELPERS
 def check_burger_menu_buttons_visibility(driver) -> None:
+    """
+    Checks the visibility of all buttons in the burger menu.
+
+    Args:
+        driver (webdriver): The Selenium WebDriver instance used to control the browser.
+
+    Raises:
+        AssertionError: If any button in the burger menu is not visible.
+
+    Example:
+        check_burger_menu_buttons_visibility(driver)
+    """
     driver.find_element(*BURGER_MENU_BTN).click()  
     WebDriverWait(driver, DEFAULT_TIMEOUT).until(
         EC.visibility_of_element_located((BURGER_MENU_SUBBTNS["All Items"]))
@@ -17,9 +29,19 @@ def check_burger_menu_buttons_visibility(driver) -> None:
         assert driver.find_element(*button_selector).is_displayed(), f"{button_name} button is not visible."
 
 def click_burger_menu_option(driver, *button_selector) -> None:
+    """
+    Clicks a specified option in the burger menu.
+
+    Args:
+        driver (webdriver): The Selenium WebDriver instance used to control the browser.
+        button_selector: The selector for the button to click.
+
+    Example:
+        click_burger_menu_option(driver, BURGER_MENU_SUBBTNS["About"])
+    """
     driver.find_element(*BURGER_MENU_BTN).click()  
     WebDriverWait(driver, DEFAULT_TIMEOUT).until(
-        EC.visibility_of_element_located((BURGER_MENU_SUBBTNS["All Items"])) # Waiting till burger menu animation
+        EC.visibility_of_element_located((BURGER_MENU_SUBBTNS["All Items"]))  # Waiting till burger menu animation
     )
     
     driver.find_element(*button_selector).click()

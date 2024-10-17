@@ -6,7 +6,23 @@ from selenium.common.exceptions import WebDriverException
     
 # HELPERS    
 
-def login(driver, username: str="standard_user", password: str="secret_sauce") -> None:
+def login(driver, username: str = "standard_user", password: str = "secret_sauce") -> None:
+    """
+    Logs in to the application using the provided username and password.
+
+    This function navigates to the base URL, fills in the login form, and submits it.
+
+    Args:
+        driver (webdriver): The Selenium WebDriver instance used to control the browser.
+        username (str): The username to log in with. Defaults to "standard_user".
+        password (str): The password to log in with. Defaults to "secret_sauce".
+
+    Raises:
+        WebDriverException: If there is an error during the login process.
+
+    Example:
+        login(driver, "my_username", "my_password")
+    """
     try:
         driver.get(BASE_URL)
         driver.find_element(*USERNAME_INPUT).send_keys(username)
@@ -14,6 +30,8 @@ def login(driver, username: str="standard_user", password: str="secret_sauce") -
         driver.find_element(*LOGIN_BTN).click()
     except WebDriverException as e:
         print(f"Encountered an error: {e}")
+
+        
 # TESTS 
 
 @pytest.mark.parametrize("username,password", VALID_CREDS.items())

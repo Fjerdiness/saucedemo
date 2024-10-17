@@ -9,6 +9,28 @@ from selenium.webdriver.support import expected_conditions as EC
 # HELPERS
 
 def social_network_click_assert(driver, button: Tuple[By, str], expected_url:str):
+    """
+    Clicks a social network button, waits for the new page to load,
+    and asserts that the current URL contains the expected URL.
+
+    This function performs the following steps:
+    1. Clicks the specified button to open a new window.
+    2. Switches to the newly opened window.
+    3. Waits until the URL of the new page contains the expected substring.
+    4. Asserts that the current URL matches the expected criteria.
+    5. Closes the new window and switches back to the original window.
+
+    Args:
+        driver (webdriver): The Selenium WebDriver instance used to control the browser.
+        button (Tuple[By, str]): A tuple containing the strategy to locate the button and its identifier.
+        expected_url (str): The expected substring that should be present in the current URL.
+
+    Raises:
+        AssertionError: If the current URL does not contain the expected substring.
+
+    Example:
+        social_network_click_assert(driver, (By.ID, "link-to-social"), "expected-url-part")
+    """
     driver.find_element(*button).click()
     driver.switch_to.window(driver.window_handles[-1]) # Switch to the new window
     WebDriverWait(driver, 10).until(
