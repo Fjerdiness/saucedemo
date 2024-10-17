@@ -1,6 +1,6 @@
 # Saucedemo
 
-Just to show some skills for possible employer. Tests are parametrized for crossbrowser testing and some of them parametrized with additional values like username/password and so on. Pytest reporting reflects it in TCs names. Full run against two browsers take around 12 minutes. 
+Just to show some skills for possible employer. Tests are parametrized for crossbrowser testing and some of them parametrized with additional values like username/password and so on. Pytest reporting reflects it in TCs names. Full run against two browsers take around 21 minutes. 
 
 Project structured like:
 - [helpers folder](./helpers)  
@@ -40,8 +40,10 @@ Project structured like:
    - Install pip, the package installer for Python, if it’s not already included with your Python installation.
 
 4. **Web Drivers**:
-   - **ChromeDriver**: For Chrome users, download it from [chromedriver](https://developer.chrome.com/docs/chromedriver/downloads).
+   - **ChromeDriver**: For Chrome users, download it from [chromedriver](https://developer.chrome.com/docs/chromedriver/downloads)
    - **EdgeDriver**: For Edge users, download [it](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/?form=MA13LH)
+   - **Geckodriver**: For Firefox users, download [it](https://github.com/mozilla/geckodriver/releases).
+
 
 5. **Navigate into the Project Directory**:
    ```bash
