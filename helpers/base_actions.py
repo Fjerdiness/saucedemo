@@ -45,7 +45,7 @@ def assert_is_element_invisible(driver, selector: Tuple[By, str]) -> None:
         element = driver.find_element(*selector)
         assert not element.is_displayed(), f"The element with selector {selector} is visible, but it should be invisible."
     except NoSuchElementException:
-        assert True, f"The element with selector {selector} does not exist, which is expected."
+        pass
 
 def assert_element_text(driver, selector: Tuple[By, str], expected_text: str) -> None:
     """
