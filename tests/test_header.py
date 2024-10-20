@@ -1,6 +1,6 @@
 from helpers import base_actions
 from helpers.base_settings import *
-from tests import test_login, test_cart
+from tests import test_login, test_cart, test_main_page
 from helpers.page_selectors import * # And I done it again
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -69,7 +69,11 @@ def test_burger_menu_logout_click(driver):
     base_actions.assert_URL(driver, BASE_URL)
 
 def test_burger_menu_reset_app_click(driver):
+    item_amount = "2"
+
     test_login.login(driver)
+    test_main_page.add_items_to_cart(driver, int(item_amount))
+    base_actions.assert_element_text(driver, CART_BADGE, item_amount)
     click_burger_menu_option(driver, *BURGER_MENU_SUBBTNS["Reset App State"])
     base_actions.assert_is_element_invisible(driver, CART_BADGE)
     
