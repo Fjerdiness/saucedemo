@@ -69,10 +69,10 @@ def test_burger_menu_logout_click(driver):
     base_actions.assert_URL(driver, BASE_URL)
 
 def test_burger_menu_reset_app_click(driver):
-    item_amount = "2"
+    item_amount = 2
 
     test_login.login(driver)
-    test_main_page.add_items_to_cart(driver, int(item_amount))
+    test_main_page.add_items_to_cart(driver, item_amount)
     base_actions.assert_element_text(driver, CART_BADGE, item_amount)
     click_burger_menu_option(driver, *BURGER_MENU_SUBBTNS["Reset App State"])
     base_actions.assert_is_element_invisible(driver, CART_BADGE)
