@@ -30,6 +30,7 @@ def login(driver, username: str = "standard_user", password: str = "secret_sauce
         driver.find_element(*LOGIN_BTN).click()
     except WebDriverException as e:
         print(f"Encountered an error: {e}")
+        raise
 
         
 # TESTS 
@@ -60,6 +61,15 @@ def test_non_existent_login(driver):
     login(driver, username="a", password="a")
     base_actions.assert_is_element_displayed(driver, LOGIN_ERROR_CONTAINER)
     base_actions.assert_element_text(driver, LOGIN_ERROR_CONTAINER, LOGIN_ERRORS_STR[3])
+
+def test_login_webdriver_exception(driver, monkeypatch):  # Simulate a WebDriverException
+    def mock_get(url):
+        raise WebDriverException("Simulated WebDriver exception.")
+    
+    monkeypatch.setattr(driver, 'get', mock_get)
+
+    with pytest.raises(WebDriverException, match="Simulated WebDriver exception."):
+        login(driver)
 
 
 

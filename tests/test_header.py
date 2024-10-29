@@ -43,6 +43,9 @@ def click_burger_menu_option(driver, *button_selector) -> None:
     WebDriverWait(driver, DEFAULT_TIMEOUT).until(
         EC.visibility_of_element_located((BURGER_MENU_SUBBTNS["All Items"]))  # Waiting till burger menu animation
     )
+    WebDriverWait(driver, DEFAULT_TIMEOUT).until(
+        EC.element_to_be_clickable((BURGER_MENU_SUBBTNS["All Items"]))  # Waiting till burger menu animation
+    )
     
     driver.find_element(*button_selector).click()
 

@@ -1,3 +1,4 @@
+import logging
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -6,6 +7,11 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.edge.options import Options as EdgeOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 
 def pytest_addoption(parser):
     """
@@ -35,11 +41,9 @@ def driver(request):
         webdriver: A Selenium WebDriver instance configured for the specified browser.
 
     This fixture supports Chrome, Edge, and Firefox, and can run in headless mode if specified.
-    Example usage:
-        def test_example(driver):
-            driver.get("http://example.com")
     """
     browser = request.param
+    logging.info(f"Setting up the browser: {browser}")
     headless = request.config.getoption("--headless")
 
     if browser == "chrome":
@@ -67,5 +71,15 @@ def driver(request):
         raise ValueError("Unsupported browser")
 
     yield driver
+    logging.info(f"Teardown the browser: {browser}")
     driver.quit()
 
+def pytest_html_report_title(report):
+    report.title = "Report for Saucedemo"
+
+def pytest_html_results_summary(summary):
+    summary.append("<div style='margin-top: 20px;'></div>")
+    summary.append("<h2>Test Summary</h2>")
+
+def pytest_html_results_table_row(cells):
+    cells[0] = f"<div style='padding: 10px;'>{cells[0]}</div>"

@@ -2,7 +2,7 @@
 import pytest
 from helpers import base_actions
 from helpers.base_settings import *
-from tests import test_login
+from tests import test_header, test_login
 from helpers.page_selectors import * # And I done it again
 from selenium.common.exceptions import NoSuchElementException
 
@@ -23,6 +23,9 @@ def add_items_to_cart(driver, items_amount: int) -> None:
         add_items_to_cart(driver, 3)
     """
     item_buttons = [item["add_to_cart"] for item in ITEMS.values()]
+
+    if not isinstance(items_amount, int):
+        raise ValueError(f"Requested items_amount must be an integer, got {type(items_amount).__name__} instead.")
 
     if items_amount > len(item_buttons) or items_amount <= 0:
         raise ValueError(f"Requested {items_amount} items, but only {len(item_buttons)} items are available.")
@@ -179,12 +182,24 @@ def test_add_all_items_to_cart(driver, items_amount) -> None:
     add_items_to_cart(driver, items_amount)
     validate_cart_badge_display(driver, items_amount)
 
+@pytest.mark.parametrize("items_amount", [0, -1, 8, "str"])  # Testing for invalid cases
+def test_add_invalid_items_to_cart(driver, items_amount) -> None:
+    test_login.login(driver)  # Log in first if necessary
+    with pytest.raises(ValueError, match="Requested"):
+        add_items_to_cart(driver, items_amount)
+
 @pytest.mark.parametrize("items_amount", range(1, 7))
 def test_updating_cart_badge(driver, items_amount):
     test_login.login(driver)
     add_items_to_cart(driver, items_amount)
     validate_cart_badge_display(driver, items_amount)
     assert_updated_cart_badge(driver, items_amount)
+
+@pytest.mark.parametrize("items_amount", ["str"])  # Testing for invalid value
+def test_updating_cart_badge_invalid_value(driver, items_amount):
+    test_login.login(driver)
+    with pytest.raises(ValueError, match="items_amount"):
+        validate_cart_badge_display(driver, items_amount)
 
 @pytest.mark.parametrize("option", SORTING_OPTIONS.keys())
 def test_sorting(driver, option):
