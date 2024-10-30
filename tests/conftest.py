@@ -8,25 +8,18 @@ from selenium.webdriver.edge.options import Options as EdgeOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
 )
 
+# Use the logger
+logger = logging.getLogger(__name__)
+
 def pytest_addoption(parser):
-    """
-    Adds command-line options for pytest.
+    parser.addoption("--headless", action="store_true", help="Run tests in headless mode.")
 
-    Args:
-        parser: The pytest parser instance used to add options.
-
-    This function adds an option to run tests in headless mode.
-    Example usage:
-        pytest --headless
-    """
-    parser.addoption(
-        "--headless", action="store_true", help="Run tests in headless mode."
-    )
 
 
 @pytest.fixture(params=["chrome", "edge", "firefox"])
@@ -43,7 +36,7 @@ def driver(request):
     This fixture supports Chrome, Edge, and Firefox, and can run in headless mode if specified.
     """
     browser = request.param
-    logging.info(f"Setting up the browser: {browser}")
+    logger.info(f"Setting up the browser: {browser}")
     headless = request.config.getoption("--headless")
 
     if browser == "chrome":
@@ -71,7 +64,7 @@ def driver(request):
         raise ValueError("Unsupported browser")
 
     yield driver
-    logging.info(f"Teardown the browser: {browser}")
+    logger.info(f"Teardown the browser: {browser}")
     driver.quit()
 
 def pytest_html_report_title(report):
