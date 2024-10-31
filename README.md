@@ -85,6 +85,10 @@ Project structured like:
 ```bash
 py -m pytest --headless
 ```
+- - to run in paralel with 20 threads:
+```
+pytest -n 20 --html=report.html --self-contained-html tests/ --headless
+```
 - On macOS:
 ```bash
 python3 -m pytest --headless
